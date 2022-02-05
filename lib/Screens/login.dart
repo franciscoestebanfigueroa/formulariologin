@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:formulariologin/Widgets/formularios.dart';
+import 'package:formulariologin/estaticos/estaticos.dart';
 
 class Login extends StatelessWidget {
   static String router = 'login';
@@ -9,8 +11,14 @@ class Login extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         body: Stack(
-          children: const [
-            _Fondo(),
+          children: [
+            Container(
+              color: Colors.grey[400],
+            ),
+            _FondoSuperior(),
+            const _CardCustom(
+              child: Formularios(),
+            )
           ],
         ),
       ),
@@ -18,16 +26,41 @@ class Login extends StatelessWidget {
   }
 }
 
-class _Fondo extends StatelessWidget {
-  const _Fondo({Key? key}) : super(key: key);
+class _CardCustom extends StatelessWidget {
+  final Widget child;
+  const _CardCustom({required this.child});
 
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Container(
+            height: size.height * 0.20,
+            //color: Colors.red,
+          ),
+          Container(
+            decoration: Estaticos.boxDecorationCar,
+            height: size.height * 0.40,
+            width: size.width * 0.80,
+            child: child,
+          ),
+          Container(
+            height: size.height * .50,
+            // color: Colors.red,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _FondoSuperior extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(
-          color: Colors.red,
-        ),
         Container(
           width: double.infinity,
           height: MediaQuery.of(context).size.height * 0.4,
@@ -74,6 +107,17 @@ class _Fondo extends StatelessWidget {
                   size: 78,
                 ),
               ),
+              Padding(
+                padding: EdgeInsets.only(top: 20),
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Icon(
+                    Icons.account_circle,
+                    color: Colors.white,
+                    size: 100,
+                  ),
+                ),
+              )
             ],
           ),
         )
