@@ -11,14 +11,14 @@ class Estaticos {
       ]);
 
   static InputDecoration inputDecorationCar({
-    required IconData icon,
+    IconData? icon,
     required String label,
     required String hint,
   }) {
     return InputDecoration(
       labelText: label,
       hintText: hint,
-      prefixIcon: Icon(icon),
+      prefixIcon: icon != null ? Icon(icon) : null,
     );
   }
 }

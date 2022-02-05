@@ -32,7 +32,7 @@ class Formularios extends StatelessWidget {
               TextFormField(
                 autocorrect: false,
                 decoration: Estaticos.inputDecorationCar(
-                  icon: Icons.remove_red_eye,
+                  // icon: Icons.remove_red_eye,
                   label: 'Password',
                   hint: '*******',
                 ),
