@@ -7,7 +7,7 @@ class Estaticos {
       color: Colors.grey[100],
       boxShadow: const [
         BoxShadow(
-            color: Colors.black, blurRadius: 30, offset: Offset(0.0, 15.0)),
+            color: Colors.black, blurRadius: 50, offset: Offset(0.0, 15.0)),
       ]);
 
   static InputDecoration inputDecorationCar({

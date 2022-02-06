@@ -33,24 +33,24 @@ class _CardCustom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Container(
-            height: size.height * 0.20,
-            //color: Colors.red,
-          ),
-          Container(
-            decoration: Estaticos.boxDecorationCar,
-            height: size.height * 0.40,
-            width: size.width * 0.80,
-            child: child,
-          ),
-          Container(
-            height: size.height * .50,
-            // color: Colors.red,
-          ),
-        ],
+    return Center(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(height: size.height * 0.20),
+            Container(
+              decoration: Estaticos.boxDecorationCar,
+              height: size.height * 0.40,
+              width: size.width * 0.80,
+              child: child,
+            ),
+            const SizedBox(height: 30),
+            const Text('Crear Usuario'),
+            const SizedBox(
+              height: 80,
+            )
+          ],
+        ),
       ),
     );
   }
