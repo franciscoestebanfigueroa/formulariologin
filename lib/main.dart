@@ -15,8 +15,13 @@ class MyApp extends StatelessWidget {
       initialRoute: Login.router,
       routes: {
         Home.router: (_) => const Home(),
-        Login.router: (_) => const Login()
+        Login.router: (_) => const Login(),
+        Productos.router: (_) => Productos()
       },
+      theme: ThemeData.light().copyWith(
+        appBarTheme: const AppBarTheme(color: Colors.indigo),
+        scaffoldBackgroundColor: Colors.grey,
+      ),
     );
   }
 }
