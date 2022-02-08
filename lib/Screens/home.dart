@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:formulariologin/Screens/screens.dart';
 import 'package:formulariologin/provider/provider_productos.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatelessWidget {
   static String router = 'home';
@@ -13,7 +14,9 @@ class Home extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Productos'),
         ),
-        body: ListCardProductos(),
+        body: ChangeNotifierProvider(
+            create: (context) => ProviderPreoductos(),
+            child: ListCardProductos()),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
@@ -29,8 +32,9 @@ class Home extends StatelessWidget {
 class ListCardProductos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final dataprovider = Provider.of<ProviderPreoductos>(context);
     return ListView.builder(
-      itemCount: 10,
+      itemCount: dataprovider.listarproducto.length,
       itemBuilder: (context, index) {
         return Padding(
           padding: const EdgeInsets.all(10.0),
@@ -38,11 +42,12 @@ class ListCardProductos extends StatelessWidget {
             decoration: _boxdecorationcard(),
             width: 400,
             height: 300,
-            child: const CardCustom(
-              disponible: true,
-              nombre: 'azucaraj',
-              descripcion: 'cosa del pendorco',
-              precio: 1000.55,
+            child: CardCustom(
+              disponible: dataprovider.listarproducto[index].disponible,
+              nombre: dataprovider.listarproducto[index].nombre,
+              descripcion: dataprovider.listarproducto[index].descripcion ?? '',
+              precio: dataprovider.listarproducto[index].precio,
+              netimagen: dataprovider.listarproducto[index].imagen,
             ),
           ),
         );
@@ -61,12 +66,14 @@ class CardCustom extends StatelessWidget {
   final String nombre;
   final double precio;
   final String descripcion;
+  final String? netimagen;
   const CardCustom({
     Key? key,
     required this.disponible,
     required this.nombre,
     required this.precio,
     required this.descripcion,
+    this.netimagen,
   }) : super(key: key);
 
   @override
@@ -83,12 +90,13 @@ class CardCustom extends StatelessWidget {
             height: 300,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: const FadeInImage(
-                  fit: BoxFit.cover,
-                  placeholder: AssetImage('assets/loading.gif'),
-                  image: NetworkImage(
-                      'https://via.placeholder.com/400x300/f6f6f6f6',
-                      scale: 1.0)),
+              child: FadeInImage(
+                fit: BoxFit.cover,
+                placeholder: const AssetImage('assets/loading.gif'),
+                image: NetworkImage(netimagen == null
+                    ? 'https://via.placeholder.com/400x300/f6f6f6f6'
+                    : netimagen!),
+              ),
             ),
           ),
         ),

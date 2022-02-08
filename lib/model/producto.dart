@@ -3,7 +3,7 @@ class Producto {
   final String? descripcion;
   final String? imagen;
   final bool disponible;
-  final String precio;
+  final double precio;
 
   Producto(
     this.nombre,
