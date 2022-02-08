@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:formulariologin/estaticos/estaticos.dart';
 
-class Productos extends StatelessWidget {
+class WidgetProductos extends StatelessWidget {
   static String router = 'productos';
   @override
   Widget build(BuildContext context) {

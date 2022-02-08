@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:formulariologin/Screens/screens.dart';
+import 'package:formulariologin/provider/provider_productos.dart';
 
 class Home extends StatelessWidget {
   static String router = 'home';
@@ -16,7 +17,9 @@ class Home extends StatelessWidget {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
-          onPressed: () {},
+          onPressed: () {
+            ProviderPreoductos();
+          },
         ),
       ),
     );
@@ -72,7 +75,7 @@ class CardCustom extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () {
-            Navigator.pushNamed(context, Productos.router);
+            Navigator.pushNamed(context, WidgetProductos.router);
           },
           child: SizedBox(
             //color: Colors.red,
@@ -84,7 +87,8 @@ class CardCustom extends StatelessWidget {
                   fit: BoxFit.cover,
                   placeholder: AssetImage('assets/loading.gif'),
                   image: NetworkImage(
-                      'https://via.placeholder.com/400x300/f6f6f6f')),
+                      'https://via.placeholder.com/400x300/f6f6f6f6',
+                      scale: 1.0)),
             ),
           ),
         ),
