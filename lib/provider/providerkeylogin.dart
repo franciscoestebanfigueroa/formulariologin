@@ -6,11 +6,10 @@ class PoroviderKey extends ChangeNotifier {
   String pass = '';
   bool _islouding = false;
 
-  GlobalKey<FormState> fromkey = GlobalKey<FormState>();
+  GlobalKey<FormState> fromkeylogin = GlobalKey<FormState>();
 
   bool validar() {
-    print(fromkey.currentState?.validate() ?? false);
-    return (fromkey.currentState?.validate() ?? false);
+    return (fromkeylogin.currentState?.validate() ?? false);
   }
 
   bool get islouding => _islouding;

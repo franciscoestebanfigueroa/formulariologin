@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       routes: {
         Home.router: (_) => const Home(),
         Login.router: (_) => const Login(),
-        WidgetProductos.router: (_) => WidgetProductos()
+        EditProduct.router: (_) => EditProduct()
       },
       theme: ThemeData.light().copyWith(
         appBarTheme: const AppBarTheme(color: Colors.indigo),

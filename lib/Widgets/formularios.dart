@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:formulariologin/Screens/home.dart';
 import 'package:formulariologin/estaticos/estaticos.dart';
-import 'package:formulariologin/provider/providerkey.dart';
+import 'package:formulariologin/provider/providerkeylogin.dart';
 import 'package:provider/provider.dart';
 
 class Formularios extends StatelessWidget {
@@ -27,7 +27,7 @@ class Formularios extends StatelessWidget {
                 style: Theme.of(context).textTheme.headline4,
               ),
               Form(
-                  key: keyprovider.fromkey,
+                  key: keyprovider.fromkeylogin,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   child: Column(
                     children: [

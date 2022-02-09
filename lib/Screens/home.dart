@@ -82,7 +82,7 @@ class CardCustom extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () {
-            Navigator.pushNamed(context, WidgetProductos.router);
+            Navigator.pushNamed(context, EditProduct.router);
           },
           child: SizedBox(
             //color: Colors.red,

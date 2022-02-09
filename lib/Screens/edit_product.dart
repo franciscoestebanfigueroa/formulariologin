@@ -1,24 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:formulariologin/estaticos/estaticos.dart';
+import 'package:formulariologin/provider/providerkeyeditpreoduct.dart';
+import 'package:provider/provider.dart';
 
-class WidgetProductos extends StatelessWidget {
+class EditProduct extends StatelessWidget {
   static String router = 'productos';
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: Column(
-            children: const [
-              _Foto(),
-              _Formulario(),
-            ],
+    return ChangeNotifierProvider(
+      create: (BuildContext context) => ProviderFormKeyEditProduct(),
+      child: SafeArea(
+        child: Scaffold(
+          body: SingleChildScrollView(
+            child: Column(
+              children: const [
+                _Foto(),
+                _Formulario(),
+              ],
+            ),
           ),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          child: const Icon(Icons.save_outlined),
+          floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {},
+            child: const Icon(Icons.save_outlined),
+          ),
         ),
       ),
     );
@@ -32,17 +37,28 @@ class _Formulario extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final key = Provider.of<ProviderFormKeyEditProduct>(context);
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 40),
       height: MediaQuery.of(context).size.height - 300,
       width: double.infinity,
       child: Form(
+        key: key.fromkeyeditproduct,
         child: Column(
           children: [
             const SizedBox(
               height: 40,
             ),
             TextFormField(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: (value) {
+                if (value!.isNotEmpty) {
+                  return null;
+                } else {
+                  return 'ingrese  un nombre';
+                }
+              },
               decoration:
                   Estaticos.inputDecorationCar(label: 'Nombre', hint: 'Auto'),
             ),
