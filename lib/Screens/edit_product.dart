@@ -11,20 +11,18 @@ class EditProduct extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-            create: (BuildContext context) => ProviderFormKeyEditProduct()),
-        ChangeNotifierProvider(
-            create: (BuildContext context) => ProviderPreoductos()),
+            create: (context) => ProviderFormKeyEditProduct()),
       ],
       builder: (BuildContext context, _) {
-        final datacopy = Provider.of<ProviderPreoductos>(context, listen: true);
-
+        final datacopy = Provider.of<ProviderPreoductos>(context);
+        print(datacopy.copydata.id);
         return SafeArea(
           child: Scaffold(
             body: SingleChildScrollView(
               child: Column(
                 children: [
                   _Foto(
-                    url: datacopy.copy.imagen!,
+                    url: datacopy.copydata.imagen ?? '',
                   ),
                   const _Formulario(),
                 ],
@@ -99,13 +97,14 @@ class _Formulario extends StatelessWidget {
 
 class _Foto extends StatelessWidget {
   final String url;
-  const _Foto({
+  _Foto({
     Key? key,
     required this.url,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    print('URL ${url}');
     return Container(
       height: 300,
       color: Colors.red,
@@ -118,7 +117,9 @@ class _Foto extends StatelessWidget {
             child: FadeInImage(
               fit: BoxFit.cover,
               placeholder: const AssetImage('assets/loading.gif'),
-              image: NetworkImage(url),
+              image: NetworkImage(url == ''
+                  ? 'https://via.placeholder.com/400x300/f6f6f6f6'
+                  : url),
             ),
           ),
           IconButton(

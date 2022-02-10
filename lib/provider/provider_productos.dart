@@ -6,7 +6,12 @@ import 'package:http/http.dart' as http;
 
 class ProviderPreoductos extends ChangeNotifier {
   List<Producto> _listadoproductos = [];
-  Producto? _copydata;
+  late Producto copydata = Producto(
+    nombre: 'nombre',
+    descripcion: 'descripcion',
+    disponible: true,
+    precio: 0.0,
+  );
 
   ProviderPreoductos() {
     getProductos();
@@ -38,24 +43,4 @@ class ProviderPreoductos extends ChangeNotifier {
   }
 
   List<Producto> get listarproducto => _listadoproductos;
-
-  set copy(Producto pd) {
-    _copydata = Producto(
-      pd.nombre,
-      pd.descripcion,
-      pd.imagen,
-      pd.disponible,
-      pd.precio,
-      pd.id,
-    );
-    notifyListeners();
-    print(copy.id);
-    print(copy.nombre);
-    print(copy.descripcion);
-    print(copy.imagen);
-    print(copy.precio);
-    print(copy.disponible);
-  }
-
-  Producto get copy => _copydata ?? _listadoproductos[0];
 }

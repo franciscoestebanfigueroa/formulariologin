@@ -15,9 +15,7 @@ class Home extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Productos'),
         ),
-        body: ChangeNotifierProvider(
-            create: (context) => ProviderPreoductos(),
-            child: ListCardProductos()),
+        body: ListCardProductos(),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
@@ -72,8 +70,9 @@ class CardCustom extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () {
-            print(producto.id);
-            dataprovider.copy = producto;
+            // print(producto.id);
+            dataprovider.copydata = producto;
+
             Navigator.pushNamed(context, EditProduct.router);
           },
           child: SizedBox(
