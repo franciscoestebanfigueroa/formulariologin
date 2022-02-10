@@ -1,9 +1,10 @@
 class Producto {
   final String nombre;
   final String? descripcion;
-  final String? imagen;
+  String? imagen;
   final bool disponible;
   final double precio;
+  late String id;
 
   Producto(
     this.nombre,
@@ -11,6 +12,7 @@ class Producto {
     this.imagen,
     this.disponible,
     this.precio,
+    this.id,
   );
 
   Producto.fromjson(Map<String, dynamic> json)

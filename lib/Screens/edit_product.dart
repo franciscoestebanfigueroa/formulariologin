@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:formulariologin/estaticos/estaticos.dart';
+import 'package:formulariologin/provider/provider_productos.dart';
 import 'package:formulariologin/provider/providerkeyeditpreoduct.dart';
 import 'package:provider/provider.dart';
 
@@ -7,25 +8,36 @@ class EditProduct extends StatelessWidget {
   static String router = 'productos';
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (BuildContext context) => ProviderFormKeyEditProduct(),
-      child: SafeArea(
-        child: Scaffold(
-          body: SingleChildScrollView(
-            child: Column(
-              children: const [
-                _Foto(),
-                _Formulario(),
-              ],
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+            create: (BuildContext context) => ProviderFormKeyEditProduct()),
+        ChangeNotifierProvider(
+            create: (BuildContext context) => ProviderPreoductos()),
+      ],
+      builder: (BuildContext context, _) {
+        final datacopy = Provider.of<ProviderPreoductos>(context, listen: true);
+
+        return SafeArea(
+          child: Scaffold(
+            body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  _Foto(
+                    url: datacopy.copy.imagen!,
+                  ),
+                  const _Formulario(),
+                ],
+              ),
+            ),
+            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {},
+              child: const Icon(Icons.save_outlined),
             ),
           ),
-          floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {},
-            child: const Icon(Icons.save_outlined),
-          ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
@@ -38,7 +50,7 @@ class _Formulario extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final key = Provider.of<ProviderFormKeyEditProduct>(context);
-
+    //final dataprovider = Provider.of<ProviderPreoductos>(context);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 40),
       height: MediaQuery.of(context).size.height - 300,
@@ -86,8 +98,10 @@ class _Formulario extends StatelessWidget {
 }
 
 class _Foto extends StatelessWidget {
+  final String url;
   const _Foto({
     Key? key,
+    required this.url,
   }) : super(key: key);
 
   @override
@@ -101,11 +115,11 @@ class _Foto extends StatelessWidget {
           Container(
             width: double.infinity,
             height: 300,
-            child: const FadeInImage(
-                fit: BoxFit.cover,
-                placeholder: AssetImage('assets/loading.gif'),
-                image: NetworkImage(
-                    'https://via.placeholder.com/400x300/f6f6f6f')),
+            child: FadeInImage(
+              fit: BoxFit.cover,
+              placeholder: const AssetImage('assets/loading.gif'),
+              image: NetworkImage(url),
+            ),
           ),
           IconButton(
             onPressed: () {

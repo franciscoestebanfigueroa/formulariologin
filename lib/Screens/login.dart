@@ -40,7 +40,7 @@ class _CardCustom extends StatelessWidget {
             SizedBox(height: size.height * 0.20),
             Container(
               decoration: Estaticos.boxDecorationCar,
-              height: size.height * 0.40,
+              height: size.height * 0.50,
               width: size.width * 0.80,
               child: child,
             ),

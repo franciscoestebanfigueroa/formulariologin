@@ -75,7 +75,9 @@ class Formularios extends StatelessWidget {
                                 height: 20,
                                 width: 20,
                                 child: const CircularProgressIndicator())
-                            : const Text('Entrar'),
+                            : const Text(
+                                'Entrar',
+                              ),
                         color: Colors.indigo,
                         splashColor: Colors.black,
                         elevation: 11,

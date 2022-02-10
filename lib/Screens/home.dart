@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:formulariologin/Screens/screens.dart';
+import 'package:formulariologin/model/producto.dart';
 import 'package:formulariologin/provider/provider_productos.dart';
 import 'package:provider/provider.dart';
 
@@ -43,11 +44,7 @@ class ListCardProductos extends StatelessWidget {
             width: 400,
             height: 300,
             child: CardCustom(
-              disponible: dataprovider.listarproducto[index].disponible,
-              nombre: dataprovider.listarproducto[index].nombre,
-              descripcion: dataprovider.listarproducto[index].descripcion ?? '',
-              precio: dataprovider.listarproducto[index].precio,
-              netimagen: dataprovider.listarproducto[index].imagen,
+              producto: dataprovider.listarproducto[index],
             ),
           ),
         );
@@ -62,26 +59,21 @@ class ListCardProductos extends StatelessWidget {
 }
 
 class CardCustom extends StatelessWidget {
-  final bool disponible;
-  final String nombre;
-  final double precio;
-  final String descripcion;
-  final String? netimagen;
+  final Producto producto;
   const CardCustom({
+    required this.producto,
     Key? key,
-    required this.disponible,
-    required this.nombre,
-    required this.precio,
-    required this.descripcion,
-    this.netimagen,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final dataprovider = Provider.of<ProviderPreoductos>(context);
     return Stack(
       children: [
         GestureDetector(
           onTap: () {
+            print(producto.id);
+            dataprovider.copy = producto;
             Navigator.pushNamed(context, EditProduct.router);
           },
           child: SizedBox(
@@ -93,9 +85,9 @@ class CardCustom extends StatelessWidget {
               child: FadeInImage(
                 fit: BoxFit.cover,
                 placeholder: const AssetImage('assets/loading.gif'),
-                image: NetworkImage(netimagen == null
+                image: NetworkImage(producto.imagen == null
                     ? 'https://via.placeholder.com/400x300/f6f6f6f6'
-                    : netimagen!),
+                    : producto.imagen!),
               ),
             ),
           ),
@@ -108,7 +100,7 @@ class CardCustom extends StatelessWidget {
             child: FittedBox(
               fit: BoxFit.contain,
               child: Text(
-                '\$ ${precio.toString()}',
+                '\$ ${producto.precio.toString()}',
                 style: const TextStyle(
                     color: Colors.white,
                     fontSize: 20,
@@ -129,7 +121,7 @@ class CardCustom extends StatelessWidget {
         Container(
           alignment: Alignment.center,
           child: Text(
-            disponible ? 'DISPONIBLE' : 'SIN STOCK',
+            producto.disponible ? 'DISPONIBLE' : 'SIN STOCK',
             style: const TextStyle(fontSize: 18, color: Colors.white),
           ),
           width: 120,
@@ -139,7 +131,7 @@ class CardCustom extends StatelessWidget {
               topLeft: Radius.circular(20),
               bottomRight: Radius.circular(20),
             ),
-            color: disponible ? Colors.amber[900] : Colors.red,
+            color: producto.disponible ? Colors.amber[900] : Colors.red,
           ),
         ),
         Positioned(
@@ -153,7 +145,7 @@ class CardCustom extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    nombre.toUpperCase(),
+                    producto.nombre.toUpperCase(),
                     maxLines: 1,
                     style: const TextStyle(
                       color: Colors.white,
@@ -162,7 +154,7 @@ class CardCustom extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    descripcion,
+                    producto.descripcion ?? '',
                     maxLines: 1,
                     style: const TextStyle(
                       color: Colors.white,
