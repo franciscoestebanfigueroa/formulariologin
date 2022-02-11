@@ -22,6 +22,17 @@ class Producto {
         disponible = json['disponible'],
         imagen = json['imagen'];
 
+  Map<String, dynamic> toMap() {
+    Map<String, dynamic> x = {
+      'nombre': this.nombre,
+      'disponible': disponible,
+      'precio': precio,
+      'imagen': imagen,
+    };
+
+    return x;
+  }
+
   Producto copy() {
     print(id);
     return Producto(
