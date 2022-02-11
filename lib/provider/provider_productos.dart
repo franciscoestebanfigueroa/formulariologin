@@ -39,8 +39,8 @@ class ProviderPreoductos extends ChangeNotifier {
 
   List<Producto> get listarproducto => _listadoproductos;
 
-  bool get estadoDisponible => copydata.disponible;
-  set estadoDisponible(bool value) {
+  bool get estadoDisponibleCopy => copydata.disponible;
+  set estadoDisponibleCopy(bool value) {
     copydata.disponible = value;
     notifyListeners();
   }

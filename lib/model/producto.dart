@@ -1,9 +1,9 @@
 class Producto {
-  final String nombre;
-  final String? descripcion;
+  String nombre;
+  String? descripcion;
   String? imagen;
   bool disponible;
-  final double precio;
+  double precio;
   String? id;
 
   Producto({

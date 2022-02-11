@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:formulariologin/estaticos/estaticos.dart';
 import 'package:formulariologin/provider/provider_productos.dart';
 import 'package:formulariologin/provider/providerkeyeditpreoduct.dart';
@@ -31,7 +32,17 @@ class EditProduct extends StatelessWidget {
             floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                print(datacopy.copydata.id);
+                final busqueda = datacopy.listarproducto.indexWhere((element) {
+                  if (element.id == datacopy.copydata.id) {
+                    return true;
+                  } else {
+                    return false;
+                  }
+                });
+                datacopy.listarproducto[busqueda] = datacopy.copydata;
+                //  print(' encontrados ${item}');
+
+                Navigator.of(context).pop();
               },
               child: const Icon(Icons.save_outlined),
             ),
@@ -64,6 +75,9 @@ class _Formulario extends StatelessWidget {
             ),
             TextFormField(
               initialValue: dataprovider.copydata.nombre,
+              onChanged: (value) {
+                dataprovider.copydata.nombre = value.toUpperCase();
+              },
               autovalidateMode: AutovalidateMode.onUserInteraction,
               validator: (value) {
                 if (value!.isNotEmpty) {
@@ -76,11 +90,30 @@ class _Formulario extends StatelessWidget {
                   Estaticos.inputDecorationCar(label: 'Nombre', hint: 'Auto'),
             ),
             TextFormField(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: (value) {
+                if (value!.length > 0) {
+                  return null;
+                } else {
+                  return 'debe escribir una descripcion';
+                }
+              },
+              onChanged: (value) => dataprovider.copydata.descripcion = value,
               initialValue: dataprovider.copydata.descripcion,
               decoration: Estaticos.inputDecorationCar(
                   label: 'Descripcion', hint: 'Rojo'),
             ),
             TextFormField(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}'))
+              ],
+              validator: (value) {
+                return (value!.length > 0) ? null : 'debe poner precio';
+              },
+              onChanged: (value) {
+                dataprovider.copydata.precio = double.parse(value);
+              },
               initialValue: dataprovider.copydata.precio.toString(),
               decoration: Estaticos.inputDecorationCar(
                   label: 'Precio', hint: 'Ejemplo \$ 1000'),
@@ -89,12 +122,13 @@ class _Formulario extends StatelessWidget {
               height: 20,
             ),
             SwitchListTile.adaptive(
-              title: Text(dataprovider.estadoDisponible
+              title: Text(dataprovider.estadoDisponibleCopy
                   ? 'Disponible'
                   : 'No Disponible'),
-              value: dataprovider.estadoDisponible,
+              value: dataprovider.estadoDisponibleCopy,
               onChanged: (value) {
-                dataprovider.estadoDisponible = value;
+                print(value);
+                dataprovider.estadoDisponibleCopy = value;
               },
             )
           ],
