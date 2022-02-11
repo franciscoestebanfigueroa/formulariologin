@@ -15,7 +15,7 @@ class EditProduct extends StatelessWidget {
       ],
       builder: (BuildContext context, _) {
         final datacopy = Provider.of<ProviderPreoductos>(context);
-        print(datacopy.copydata.id);
+
         return SafeArea(
           child: Scaffold(
             body: SingleChildScrollView(
@@ -30,7 +30,9 @@ class EditProduct extends StatelessWidget {
             ),
             floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
             floatingActionButton: FloatingActionButton(
-              onPressed: () {},
+              onPressed: () {
+                print(datacopy.copydata.id);
+              },
               child: const Icon(Icons.save_outlined),
             ),
           ),
@@ -48,7 +50,7 @@ class _Formulario extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final key = Provider.of<ProviderFormKeyEditProduct>(context);
-    //final dataprovider = Provider.of<ProviderPreoductos>(context);
+    final dataprovider = Provider.of<ProviderPreoductos>(context);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 40),
       height: MediaQuery.of(context).size.height - 300,
@@ -61,6 +63,7 @@ class _Formulario extends StatelessWidget {
               height: 40,
             ),
             TextFormField(
+              initialValue: dataprovider.copydata.nombre,
               autovalidateMode: AutovalidateMode.onUserInteraction,
               validator: (value) {
                 if (value!.isNotEmpty) {
@@ -73,10 +76,12 @@ class _Formulario extends StatelessWidget {
                   Estaticos.inputDecorationCar(label: 'Nombre', hint: 'Auto'),
             ),
             TextFormField(
+              initialValue: dataprovider.copydata.descripcion,
               decoration: Estaticos.inputDecorationCar(
                   label: 'Descripcion', hint: 'Rojo'),
             ),
             TextFormField(
+              initialValue: dataprovider.copydata.precio.toString(),
               decoration: Estaticos.inputDecorationCar(
                   label: 'Precio', hint: 'Ejemplo \$ 1000'),
             ),
@@ -84,9 +89,13 @@ class _Formulario extends StatelessWidget {
               height: 20,
             ),
             SwitchListTile.adaptive(
-              title: const Text('Disponible'),
-              value: false,
-              onChanged: (value) {},
+              title: Text(dataprovider.estadoDisponible
+                  ? 'Disponible'
+                  : 'No Disponible'),
+              value: dataprovider.estadoDisponible,
+              onChanged: (value) {
+                dataprovider.estadoDisponible = value;
+              },
             )
           ],
         ),

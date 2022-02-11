@@ -6,12 +6,7 @@ import 'package:http/http.dart' as http;
 
 class ProviderPreoductos extends ChangeNotifier {
   List<Producto> _listadoproductos = [];
-  late Producto copydata = Producto(
-    nombre: 'nombre',
-    descripcion: 'descripcion',
-    disponible: true,
-    precio: 0.0,
-  );
+  late Producto copydata;
 
   ProviderPreoductos() {
     getProductos();
@@ -43,4 +38,10 @@ class ProviderPreoductos extends ChangeNotifier {
   }
 
   List<Producto> get listarproducto => _listadoproductos;
+
+  bool get estadoDisponible => copydata.disponible;
+  set estadoDisponible(bool value) {
+    copydata.disponible = value;
+    notifyListeners();
+  }
 }

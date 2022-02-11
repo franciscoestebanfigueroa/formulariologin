@@ -71,7 +71,7 @@ class CardCustom extends StatelessWidget {
         GestureDetector(
           onTap: () {
             // print(producto.id);
-            dataprovider.copydata = producto;
+            dataprovider.copydata = producto.copy();
 
             Navigator.pushNamed(context, EditProduct.router);
           },
