@@ -5,11 +5,16 @@ import 'package:formulariologin/model/producto.dart';
 import 'package:http/http.dart' as http;
 
 class ProviderPreoductos extends ChangeNotifier {
-  final List<Producto> _listadoproductos = [];
+  List<Producto> _listadoproductos = [];
   late Producto copydata;
 
   ProviderPreoductos() {
     getProductos();
+  }
+
+  set imagenNueva(String value) {
+    copydata.imagen = value;
+    notifyListeners();
   }
 
   Future<void> nuevoProducto(Producto producto) async {

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:formulariologin/estaticos/estaticos.dart';
@@ -19,14 +21,14 @@ class EditProduct extends StatelessWidget {
       ],
       builder: (BuildContext context, _) {
         final datacopy = Provider.of<ProviderPreoductos>(context);
-
+        print(datacopy.copydata.imagen);
         return SafeArea(
           child: Scaffold(
             body: SingleChildScrollView(
               child: Column(
                 children: [
                   _Foto(
-                    url: datacopy.copydata.imagen ?? '',
+                    url: datacopy.copydata.imagen,
                   ),
                   const _Formulario(),
                 ],
@@ -147,14 +149,15 @@ class _Formulario extends StatelessWidget {
 }
 
 class _Foto extends StatelessWidget {
-  final String url;
-  const _Foto({
+  String? url;
+  _Foto({
     Key? key,
     required this.url,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final dataprovider = Provider.of<ProviderPreoductos>(context);
     return Container(
       height: 300,
       color: Colors.red,
@@ -167,9 +170,7 @@ class _Foto extends StatelessWidget {
             child: FadeInImage(
               fit: BoxFit.cover,
               placeholder: const AssetImage('assets/loading.gif'),
-              image: NetworkImage(url == ''
-                  ? 'https://via.placeholder.com/400x300/f6f6f6f6'
-                  : url),
+              image: Estaticos.imagenes(dataprovider.copydata.imagen!),
             ),
           ),
           IconButton(
@@ -184,11 +185,13 @@ class _Foto extends StatelessWidget {
               onPressed: () async {
                 final ImagePicker _picker = ImagePicker();
                 final XFile? xfile =
-                    await _picker.pickImage(source: ImageSource.gallery);
+                    await _picker.pickImage(source: ImageSource.camera);
                 if (xfile == null) {
                   print('no hay foto');
                 } else {
                   print('hay foto name>>${xfile.name} ruta >>${xfile.path}');
+                  String path = xfile.path;
+                  dataprovider.imagenNueva = path;
                 }
               },
               icon: const Icon(Icons.camera_alt_outlined),

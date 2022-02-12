@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:formulariologin/Screens/screens.dart';
+import 'package:formulariologin/estaticos/estaticos.dart';
 import 'package:formulariologin/model/producto.dart';
 import 'package:formulariologin/provider/provider_productos.dart';
 import 'package:provider/provider.dart';
@@ -22,11 +23,13 @@ class Home extends StatelessWidget {
           child: const Icon(Icons.add),
           onPressed: () {
             final Producto nuevo = Producto(
+              imagen: '',
               nombre: '',
               descripcion: '',
               disponible: false,
-              precio: 0.0,
+              precio: 1.00,
             );
+
             dataProvider.copydata = nuevo.copy();
             Navigator.pushNamed(context, EditProduct.router);
 
@@ -93,12 +96,9 @@ class CardCustom extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: FadeInImage(
-                fit: BoxFit.cover,
-                placeholder: const AssetImage('assets/loading.gif'),
-                image: NetworkImage(producto.imagen == null
-                    ? 'https://via.placeholder.com/400x300/f6f6f6f6'
-                    : producto.imagen!),
-              ),
+                  fit: BoxFit.cover,
+                  placeholder: const AssetImage('assets/loading.gif'),
+                  image: Estaticos.imagenes(producto.imagen!)),
             ),
           ),
         ),
@@ -149,31 +149,28 @@ class CardCustom extends StatelessWidget {
           child: Container(
             alignment: Alignment.bottomLeft,
             padding: const EdgeInsets.all(8),
-            child: FittedBox(
-              fit: BoxFit.contain,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    producto.nombre.toUpperCase(),
-                    maxLines: 1,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  producto.nombre.toUpperCase(),
+                  maxLines: 1,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  Text(
-                    producto.descripcion ?? '',
-                    maxLines: 1,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                ),
+                Text(
+                  producto.descripcion ?? '',
+                  maxLines: 1,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
             width: 270,
             height: 60,

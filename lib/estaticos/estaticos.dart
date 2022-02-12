@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
@@ -20,5 +22,19 @@ class Estaticos {
       hintText: hint,
       prefixIcon: icon != null ? Icon(icon) : null,
     );
+  }
+
+  static ImageProvider<Object> imagenes(String value) {
+    if (value == null) {
+      return const NetworkImage('https://via.placeholder.com/400x300/f6f6f6f6');
+    }
+
+    if (value.startsWith('http')) {
+      return NetworkImage(value);
+    } else {
+      Uri uri = Uri.file(value);
+      File file = File.fromUri(uri);
+      return FileImage(file);
+    }
   }
 }
