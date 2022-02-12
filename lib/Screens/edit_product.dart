@@ -4,6 +4,7 @@ import 'package:formulariologin/estaticos/estaticos.dart';
 import 'package:formulariologin/provider/provider_productos.dart';
 import 'package:formulariologin/provider/providerkeyeditpreoduct.dart';
 import 'package:provider/provider.dart';
+import 'package:image_picker/image_picker.dart';
 
 class EditProduct extends StatelessWidget {
   static String router = 'productos';
@@ -180,8 +181,15 @@ class _Foto extends StatelessWidget {
           Align(
             alignment: Alignment.topRight,
             child: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
+              onPressed: () async {
+                final ImagePicker _picker = ImagePicker();
+                final XFile? xfile =
+                    await _picker.pickImage(source: ImageSource.gallery);
+                if (xfile == null) {
+                  print('no hay foto');
+                } else {
+                  print('hay foto name>>${xfile.name} ruta >>${xfile.path}');
+                }
               },
               icon: const Icon(Icons.camera_alt_outlined),
             ),
