@@ -5,21 +5,40 @@ import 'package:formulariologin/model/producto.dart';
 import 'package:http/http.dart' as http;
 
 class ProviderPreoductos extends ChangeNotifier {
-  List<Producto> _listadoproductos = [];
+  final List<Producto> _listadoproductos = [];
   late Producto copydata;
 
   ProviderPreoductos() {
     getProductos();
   }
 
-  Future<void> setbasedatos(Producto producto) async {
-    final Map<String, String> temp = producto.toMap();
+  Future<void> nuevoProducto(Producto producto) async {
+    String url = 'stock-5961c-default-rtdb.firebaseio.com';
+
+    var uri = Uri.https(url, 'productos.json');
+
+    http.Response response =
+        await http.post(uri, body: producto.jsonProducto());
+
+    //el response es el nombre del nuevo lugar, id..
+    var nuevoid = jsonDecode(response.body);
+    print(nuevoid);
+    producto.id = nuevoid['name'];
+  }
+
+  Future<String> setbasedatos(Producto producto) async {
     const url = 'stock-5961c-default-rtdb.firebaseio.com';
 
     Uri uri = Uri.https(url, 'productos/${producto.id}.json');
-    http.Response response = await http.put(uri, body: temp);
 
-    print(' listado mapeado ${response.body}');
+    String jsonproduct = producto.jsonProducto();
+
+    http.Response response = await http.put(uri, body: jsonproduct);
+
+    var index = _listadoproductos.indexWhere((x) => x.id == producto.id);
+    _listadoproductos[index] = producto;
+    notifyListeners();
+    return response.body;
   }
 
   Future<List<Producto>> getProductos() async {
@@ -48,6 +67,10 @@ class ProviderPreoductos extends ChangeNotifier {
   }
 
   List<Producto> get listarproducto => _listadoproductos;
+  nuevoProductolistalocal(Producto producto) {
+    _listadoproductos.add(producto);
+    notifyListeners();
+  }
 
   bool get estadoDisponibleCopy => copydata.disponible;
   set estadoDisponibleCopy(bool value) {

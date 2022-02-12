@@ -10,17 +10,27 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dataProvider = Provider.of<ProviderPreoductos>(context);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Productos'),
         ),
-        body: ListCardProductos(),
+        body: const ListCardProductos(),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
           onPressed: () {
-            ProviderPreoductos();
+            final Producto nuevo = Producto(
+              nombre: '',
+              descripcion: '',
+              disponible: false,
+              precio: 0.0,
+            );
+            dataProvider.copydata = nuevo.copy();
+            Navigator.pushNamed(context, EditProduct.router);
+
+            // dataProvider.nuevoProducto(nuevo);
           },
         ),
       ),
@@ -29,6 +39,8 @@ class Home extends StatelessWidget {
 }
 
 class ListCardProductos extends StatelessWidget {
+  const ListCardProductos({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final dataprovider = Provider.of<ProviderPreoductos>(context);
@@ -76,7 +88,6 @@ class CardCustom extends StatelessWidget {
             Navigator.pushNamed(context, EditProduct.router);
           },
           child: SizedBox(
-            //color: Colors.red,
             width: 400,
             height: 300,
             child: ClipRRect(

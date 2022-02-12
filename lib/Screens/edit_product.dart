@@ -7,6 +7,8 @@ import 'package:provider/provider.dart';
 
 class EditProduct extends StatelessWidget {
   static String router = 'productos';
+
+  const EditProduct({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -32,18 +34,23 @@ class EditProduct extends StatelessWidget {
             floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                final busqueda = datacopy.listarproducto.indexWhere((element) {
-                  if (element.id == datacopy.copydata.id) {
-                    return true;
-                  } else {
-                    return false;
-                  }
-                });
-                datacopy.listarproducto[busqueda] = datacopy.copydata;
+                //  final busqueda = datacopy.listarproducto.indexWhere((element) {
+                //    if (element.id == datacopy.copydata.id) {
+                //      return true;
+                //    } else {
+                //      return false;
+                //    }
+                //  });
+                //  datacopy.listarproducto[busqueda] = datacopy.copydata;
                 // print(' encontrados ${item}');
-                datacopy.setbasedatos(datacopy.copydata);
-
-                Navigator.of(context).pop();
+                if (datacopy.copydata.id != null) {
+                  datacopy.setbasedatos(datacopy.copydata);
+                  Navigator.of(context).pop();
+                } else {
+                  datacopy.nuevoProducto(datacopy.copydata);
+                  datacopy.nuevoProductolistalocal(datacopy.copydata);
+                  Navigator.of(context).pop();
+                }
               },
               child: const Icon(Icons.save_outlined),
             ),
@@ -93,7 +100,7 @@ class _Formulario extends StatelessWidget {
             TextFormField(
               autovalidateMode: AutovalidateMode.onUserInteraction,
               validator: (value) {
-                if (value!.length > 0) {
+                if (value!.isNotEmpty) {
                   return null;
                 } else {
                   return 'debe escribir una descripcion';
@@ -110,7 +117,7 @@ class _Formulario extends StatelessWidget {
                 FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}'))
               ],
               validator: (value) {
-                return (value!.length > 0) ? null : 'debe poner precio';
+                return (value!.isNotEmpty) ? null : 'debe poner precio';
               },
               onChanged: (value) {
                 dataprovider.copydata.precio = double.parse(value);
@@ -128,7 +135,6 @@ class _Formulario extends StatelessWidget {
                   : 'No Disponible'),
               value: dataprovider.estadoDisponibleCopy,
               onChanged: (value) {
-                print(value);
                 dataprovider.estadoDisponibleCopy = value;
               },
             )
@@ -141,21 +147,20 @@ class _Formulario extends StatelessWidget {
 
 class _Foto extends StatelessWidget {
   final String url;
-  _Foto({
+  const _Foto({
     Key? key,
     required this.url,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    print('URL ${url}');
     return Container(
       height: 300,
       color: Colors.red,
       width: double.infinity,
       child: Stack(
         children: [
-          Container(
+          SizedBox(
             width: double.infinity,
             height: 300,
             child: FadeInImage(
@@ -170,7 +175,7 @@ class _Foto extends StatelessWidget {
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: Icon(Icons.arrow_back_ios_new),
+            icon: const Icon(Icons.arrow_back_ios_new),
           ),
           Align(
             alignment: Alignment.topRight,
@@ -178,7 +183,7 @@ class _Foto extends StatelessWidget {
               onPressed: () {
                 Navigator.pop(context);
               },
-              icon: Icon(Icons.camera_alt_outlined),
+              icon: const Icon(Icons.camera_alt_outlined),
             ),
           )
         ],

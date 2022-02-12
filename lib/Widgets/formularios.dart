@@ -71,10 +71,10 @@ class Formularios extends StatelessWidget {
                             vertical: 10, horizontal: 60),
                         disabledColor: Colors.grey,
                         child: keyprovider.islouding
-                            ? Container(
+                            ? const SizedBox(
                                 height: 20,
                                 width: 20,
-                                child: const CircularProgressIndicator())
+                                child: CircularProgressIndicator())
                             : const Text(
                                 'Entrar',
                               ),
@@ -102,7 +102,6 @@ class Formularios extends StatelessWidget {
                                     ? Navigator.pushReplacementNamed(
                                         context, Home.router)
                                     : Navigator.pushNamed(context, Home.router);
-                                //TODO  : null;
                               },
                       ),
                     ],

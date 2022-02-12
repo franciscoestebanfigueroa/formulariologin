@@ -14,7 +14,7 @@ class MyAppProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(providers: [
       ChangeNotifierProvider(create: (context) => ProviderPreoductos())
-    ], child: MyApp());
+    ], child: const MyApp());
   }
 }
 
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       routes: {
         Home.router: (_) => const Home(),
         Login.router: (_) => const Login(),
-        EditProduct.router: (_) => EditProduct()
+        EditProduct.router: (_) => const EditProduct()
       },
       theme: ThemeData.light().copyWith(
         appBarTheme: const AppBarTheme(color: Colors.indigo),

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class Producto {
   String nombre;
   String? descripcion;
@@ -22,26 +24,24 @@ class Producto {
         disponible = json['disponible'],
         imagen = json['imagen'];
 
-  Map<String, String> toMap() {
-    Map<String, String> x = {
-      'nombre': this.nombre,
-      'disponible': disponible.toString(),
-      'precio': precio.toString(),
-      'imagen': imagen.toString(),
-    };
+  Map<String, dynamic> toMap() => {
+        'nombre': nombre,
+        'disponible': disponible,
+        'precio': precio,
+        'imagen': imagen,
+        'descripcion': descripcion
+      };
 
-    return x;
-  }
+  String jsonProducto() => jsonEncode(toMap());
 
   Producto copy() {
-    print(id);
     return Producto(
-      nombre: this.nombre,
-      descripcion: this.descripcion,
-      imagen: this.imagen,
-      disponible: this.disponible,
-      precio: this.precio,
-      id: this.id,
+      nombre: nombre,
+      descripcion: descripcion,
+      imagen: imagen,
+      disponible: disponible,
+      precio: precio,
+      id: id,
     );
   }
 }
