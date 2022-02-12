@@ -12,12 +12,14 @@ class ProviderPreoductos extends ChangeNotifier {
     getProductos();
   }
 
-  Future<void> setbasedatos(List<Producto> listado) async {
-    final List<Map<String, dynamic>> tem = [];
-    listado.forEach((element) {
-      tem.add(element.toMap());
-    });
-    print(' listado mapeado ${tem}');
+  Future<void> setbasedatos(Producto producto) async {
+    final Map<String, String> temp = producto.toMap();
+    const url = 'stock-5961c-default-rtdb.firebaseio.com';
+
+    Uri uri = Uri.https(url, 'productos/${producto.id}.json');
+    http.Response response = await http.put(uri, body: temp);
+
+    print(' listado mapeado ${response.body}');
   }
 
   Future<List<Producto>> getProductos() async {

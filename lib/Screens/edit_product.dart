@@ -40,7 +40,8 @@ class EditProduct extends StatelessWidget {
                   }
                 });
                 datacopy.listarproducto[busqueda] = datacopy.copydata;
-                //  print(' encontrados ${item}');
+                // print(' encontrados ${item}');
+                datacopy.setbasedatos(datacopy.copydata);
 
                 Navigator.of(context).pop();
               },

@@ -22,12 +22,12 @@ class Producto {
         disponible = json['disponible'],
         imagen = json['imagen'];
 
-  Map<String, dynamic> toMap() {
-    Map<String, dynamic> x = {
+  Map<String, String> toMap() {
+    Map<String, String> x = {
       'nombre': this.nombre,
-      'disponible': disponible,
-      'precio': precio,
-      'imagen': imagen,
+      'disponible': disponible.toString(),
+      'precio': precio.toString(),
+      'imagen': imagen.toString(),
     };
 
     return x;
