@@ -36,7 +36,7 @@ class EditProduct extends StatelessWidget {
             ),
             floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
             floatingActionButton: FloatingActionButton(
-              onPressed: () {
+              onPressed: () async {
                 //  final busqueda = datacopy.listarproducto.indexWhere((element) {
                 //    if (element.id == datacopy.copydata.id) {
                 //      return true;
@@ -50,8 +50,16 @@ class EditProduct extends StatelessWidget {
                   datacopy.setbasedatos(datacopy.copydata);
                   Navigator.of(context).pop();
                 } else {
+                  String? pathnube =
+                      await datacopy.enviarFoto(datacopy.copydata.imagen!);
+
+                  if (pathnube != null) {
+                    datacopy.copydata.imagen = pathnube;
+                  }
+
                   datacopy.nuevoProducto(datacopy.copydata);
                   datacopy.nuevoProductolistalocal(datacopy.copydata);
+                  ;
                   Navigator.of(context).pop();
                 }
               },

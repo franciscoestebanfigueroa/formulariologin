@@ -82,4 +82,24 @@ class ProviderPreoductos extends ChangeNotifier {
     copydata.disponible = value;
     notifyListeners();
   }
+
+  Future<String?> enviarFoto(String ruta) async {
+    if (ruta == null) {
+      return null;
+    }
+
+    Uri url =
+        Uri.parse('https://api.cloudinary.com/v1_1/dhmgzz9eq/image/upload');
+
+    final imageload = http.MultipartRequest('POST', url);
+    final file = http.MultipartFile.fromString('file', ruta);
+    imageload.files.add(file);
+
+    final sttreamResponse = await imageload.send();
+    final response = await http.Response.fromStream(sttreamResponse);
+    print(' response ${response}');
+    print(' streanResponse ${sttreamResponse}');
+    final decode = jsonDecode(response.body);
+    return decode['secure_url'];
+  }
 }
