@@ -128,27 +128,29 @@ class CardCustom extends StatelessWidget {
             ),
           ),
         ),
-        Container(
-          alignment: Alignment.center,
-          child: Text(
-            producto.disponible ? 'DISPONIBLE' : 'SIN STOCK',
-            style: const TextStyle(fontSize: 18, color: Colors.white),
-          ),
-          width: 120,
-          height: 60,
-          decoration: BoxDecoration(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(20),
-              bottomRight: Radius.circular(20),
-            ),
-            color: producto.disponible ? Colors.amber[900] : Colors.red,
-          ),
-        ),
+        !producto.disponible
+            ? Container(
+                alignment: Alignment.center,
+                child: Text(
+                  producto.disponible ? 'DISPONIBLE' : 'SIN STOCK',
+                  style: const TextStyle(fontSize: 18, color: Colors.white),
+                ),
+                width: 120,
+                height: 60,
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    bottomRight: Radius.circular(20),
+                  ),
+                  color: producto.disponible ? Colors.amber[900] : Colors.red,
+                ),
+              )
+            : Container(),
         Positioned(
           bottom: 0,
           child: Container(
             alignment: Alignment.bottomLeft,
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.only(left: 12, top: 5),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -166,7 +168,7 @@ class CardCustom extends StatelessWidget {
                   maxLines: 1,
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 18,
+                    fontSize: 14,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),

@@ -100,6 +100,7 @@ class Formularios extends StatelessWidget {
                                     const Duration(milliseconds: 200));
 
                                 FocusScope.of(context).unfocus();
+                                data.listarproducto.clear();
                                 data.getProductos();
                                 keyprovider.validar()
                                     ? Navigator.pushReplacementNamed(
