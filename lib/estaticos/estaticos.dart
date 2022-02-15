@@ -24,10 +24,8 @@ class Estaticos {
     );
   }
 
-  static ImageProvider<Object> imagenes(String value) {
-    if (value == null) {
-      return const NetworkImage('https://via.placeholder.com/400x300/f6f6f6f6');
-    }
+  static ImageProvider<Object> imagenes(String? value) {
+    if (value == null) return const AssetImage('assets/no-image.jpg');
 
     if (value.startsWith('http')) {
       return NetworkImage(value);

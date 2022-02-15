@@ -21,7 +21,7 @@ class EditProduct extends StatelessWidget {
       ],
       builder: (BuildContext context, _) {
         final datacopy = Provider.of<ProviderPreoductos>(context);
-        print(datacopy.copydata.imagen);
+        print(datacopy.copydata.imagen ?? 'no hay foto');
         return SafeArea(
           child: Scaffold(
             body: SingleChildScrollView(
@@ -46,20 +46,26 @@ class EditProduct extends StatelessWidget {
                 //  });
                 //  datacopy.listarproducto[busqueda] = datacopy.copydata;
                 // print(' encontrados ${item}');
+
                 if (datacopy.copydata.id != null) {
                   datacopy.setbasedatos(datacopy.copydata);
                   Navigator.of(context).pop();
                 } else {
-                  String? pathnube =
-                      await datacopy.enviarFoto(datacopy.copydata.imagen!);
-
-                  if (pathnube != null) {
-                    datacopy.copydata.imagen = pathnube;
+                  if (datacopy.copydata.imagen != null) {
+                    print('ruta ${datacopy.copydata.imagen}');
+                    String? pathnube =
+                        await datacopy.enviarFoto(datacopy.copydata.imagen!);
+                    print('ptth nube $pathnube');
+                    if (pathnube != null) {
+                      datacopy.copydata.imagen = pathnube;
+                    }
                   }
 
-                  datacopy.nuevoProducto(datacopy.copydata);
+                  final nuevoId =
+                      await datacopy.nuevoProducto(datacopy.copydata);
+                  datacopy.copydata.id = nuevoId;
                   datacopy.nuevoProductolistalocal(datacopy.copydata);
-                  ;
+
                   Navigator.of(context).pop();
                 }
               },
@@ -178,7 +184,7 @@ class _Foto extends StatelessWidget {
             child: FadeInImage(
               fit: BoxFit.cover,
               placeholder: const AssetImage('assets/loading.gif'),
-              image: Estaticos.imagenes(dataprovider.copydata.imagen!),
+              image: Estaticos.imagenes(dataprovider.copydata.imagen),
             ),
           ),
           IconButton(
@@ -193,7 +199,7 @@ class _Foto extends StatelessWidget {
               onPressed: () async {
                 final ImagePicker _picker = ImagePicker();
                 final XFile? xfile =
-                    await _picker.pickImage(source: ImageSource.camera);
+                    await _picker.pickImage(source: ImageSource.gallery);
                 if (xfile == null) {
                   print('no hay foto');
                 } else {

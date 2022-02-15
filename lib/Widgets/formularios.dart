@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:formulariologin/Screens/home.dart';
 import 'package:formulariologin/estaticos/estaticos.dart';
+import 'package:formulariologin/model/producto.dart';
+import 'package:formulariologin/provider/provider_productos.dart';
 import 'package:formulariologin/provider/providerkeylogin.dart';
 import 'package:provider/provider.dart';
 
@@ -10,6 +12,7 @@ class Formularios extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final data = Provider.of<ProviderPreoductos>(context);
     return ChangeNotifierProvider(
       create: (context) => PoroviderKey(),
       builder: (context, _) {
@@ -97,7 +100,7 @@ class Formularios extends StatelessWidget {
                                     const Duration(milliseconds: 200));
 
                                 FocusScope.of(context).unfocus();
-
+                                data.getProductos();
                                 keyprovider.validar()
                                     ? Navigator.pushReplacementNamed(
                                         context, Home.router)

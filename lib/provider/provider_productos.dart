@@ -17,7 +17,7 @@ class ProviderPreoductos extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> nuevoProducto(Producto producto) async {
+  Future<String> nuevoProducto(Producto producto) async {
     String url = 'stock-5961c-default-rtdb.firebaseio.com';
 
     var uri = Uri.https(url, 'productos.json');
@@ -28,7 +28,7 @@ class ProviderPreoductos extends ChangeNotifier {
     //el response es el nombre del nuevo lugar, id..
     var nuevoid = jsonDecode(response.body);
     print(nuevoid);
-    producto.id = nuevoid['name'];
+    return nuevoid['name'];
   }
 
   Future<String> setbasedatos(Producto producto) async {
@@ -88,18 +88,18 @@ class ProviderPreoductos extends ChangeNotifier {
       return null;
     }
 
-    Uri url =
-        Uri.parse('https://api.cloudinary.com/v1_1/dhmgzz9eq/image/upload');
+    Uri url = Uri.parse(
+        'https://api.cloudinary.com/v1_1/dhmgzz9eq/image/upload?upload_preset=y1ikv3xf'); //hay que pegar de postman con el upload presset
 
     final imageload = http.MultipartRequest('POST', url);
-    final file = http.MultipartFile.fromString('file', ruta);
+    final file = await http.MultipartFile.fromPath('file', ruta);
     imageload.files.add(file);
 
     final sttreamResponse = await imageload.send();
     final response = await http.Response.fromStream(sttreamResponse);
-    print(' response ${response}');
-    print(' streanResponse ${sttreamResponse}');
     final decode = jsonDecode(response.body);
+    print(' response ${response.body}');
+    //print(' streanResponse ${sttreamResponse.statusCode}');
     return decode['secure_url'];
   }
 }

@@ -22,12 +22,12 @@ class Home extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
           onPressed: () {
+            double x = 0.0;
             final Producto nuevo = Producto(
-              imagen: '',
               nombre: '',
               descripcion: '',
               disponible: false,
-              precio: 1.00,
+              precio: x,
             );
 
             dataProvider.copydata = nuevo.copy();
@@ -98,7 +98,7 @@ class CardCustom extends StatelessWidget {
               child: FadeInImage(
                   fit: BoxFit.cover,
                   placeholder: const AssetImage('assets/loading.gif'),
-                  image: Estaticos.imagenes(producto.imagen!)),
+                  image: Estaticos.imagenes(producto.imagen)),
             ),
           ),
         ),
