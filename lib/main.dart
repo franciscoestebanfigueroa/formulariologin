@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:formulariologin/Screens/screens.dart';
+import 'package:formulariologin/estaticos/estaticos.dart';
 import 'package:formulariologin/provider/provider_productos.dart';
 import 'package:provider/provider.dart';
 
@@ -29,8 +30,10 @@ class MyApp extends StatelessWidget {
       routes: {
         Home.router: (_) => const Home(),
         Login.router: (_) => const Login(),
-        EditProduct.router: (_) => const EditProduct()
+        EditProduct.router: (_) => const EditProduct(),
+        NewUser.router: (_) => const NewUser()
       },
+      scaffoldMessengerKey: Estaticos.messengerkey,
       theme: ThemeData.light().copyWith(
         appBarTheme: const AppBarTheme(color: Colors.indigo),
         scaffoldBackgroundColor: Colors.grey,

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:formulariologin/Screens/screens.dart';
+import 'package:formulariologin/Screens/login.dart';
 import 'package:formulariologin/Widgets/formularios.dart';
 import 'package:formulariologin/estaticos/estaticos.dart';
 
-class Login extends StatelessWidget {
-  static String router = 'login';
-  const Login({Key? key}) : super(key: key);
+class NewUser extends StatelessWidget {
+  static String router = 'newuser';
+  const NewUser({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class Login extends StatelessWidget {
             _FondoSuperior(),
             const _CardCustom(
               child: Formularios(
-                title: 'Login',
+                title: 'Nuevo Usuario',
               ),
             )
           ],
@@ -55,12 +55,12 @@ class _CardCustom extends StatelessWidget {
                 foregroundColor: MaterialStateProperty.all(Colors.black),
               ),
               onPressed: () {
-                Navigator.pushNamed(context, NewUser.router);
+                Navigator.popAndPushNamed(context, Login.router);
               },
               child: const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                 child: Text(
-                  'Registrarse',
+                  'Regresar',
                   style: TextStyle(fontSize: 20),
                 ),
               ),

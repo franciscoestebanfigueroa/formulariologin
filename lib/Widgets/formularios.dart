@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:formulariologin/Screens/home.dart';
+import 'package:formulariologin/Screens/login.dart';
 import 'package:formulariologin/estaticos/estaticos.dart';
 import 'package:formulariologin/model/producto.dart';
 import 'package:formulariologin/provider/provider_productos.dart';
@@ -8,7 +9,8 @@ import 'package:formulariologin/provider/providerkeylogin.dart';
 import 'package:provider/provider.dart';
 
 class Formularios extends StatelessWidget {
-  const Formularios({Key? key}) : super(key: key);
+  final String title;
+  const Formularios({Key? key, required this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +28,7 @@ class Formularios extends StatelessWidget {
                 height: 20,
               ),
               Text(
-                'Formulario',
+                title,
                 style: Theme.of(context).textTheme.headline4,
               ),
               Form(
@@ -78,8 +80,9 @@ class Formularios extends StatelessWidget {
                                 height: 20,
                                 width: 20,
                                 child: CircularProgressIndicator())
-                            : const Text(
-                                'Entrar',
+                            : Text(
+                                title == 'Login' ? 'Entrar' : 'Crear',
+                                style: const TextStyle(fontSize: 18),
                               ),
                         color: Colors.indigo,
                         splashColor: Colors.black,
@@ -93,19 +96,14 @@ class Formularios extends StatelessWidget {
                                 keyprovider.islouding = true;
 
                                 await Future.delayed(
-                                    const Duration(seconds: 2));
+                                    const Duration(seconds: 1));
 
                                 keyprovider.islouding = false;
                                 await Future.delayed(
-                                    const Duration(milliseconds: 200));
-
-                                FocusScope.of(context).unfocus();
-                                data.listarproducto.clear();
-                                data.getProductos();
-                                keyprovider.validar()
-                                    ? Navigator.pushReplacementNamed(
-                                        context, Home.router)
-                                    : Navigator.pushNamed(context, Home.router);
+                                    const Duration(milliseconds: 100));
+                                title == 'Login'
+                                    ? login(context, data, keyprovider)
+                                    : newUser(context, data, keyprovider);
                               },
                       ),
                     ],
@@ -115,5 +113,28 @@ class Formularios extends StatelessWidget {
         );
       },
     );
+  }
+
+  void login(
+      BuildContext context, ProviderPreoductos data, PoroviderKey keyprovider) {
+    FocusScope.of(context).unfocus();
+    data.listarproducto.clear();
+    data.getProductos();
+    if (keyprovider.validar()) {
+      Navigator.pushReplacementNamed(context, Home.router);
+    } else {
+      Estaticos.showSnackbar('Usuario Incorecto');
+      null;
+    }
+  }
+
+  void newUser(
+      BuildContext context, ProviderPreoductos data, PoroviderKey keyprovider) {
+    if (keyprovider.validar()) {
+      Navigator.popAndPushNamed(context, Login.router);
+      print('llamar a crar');
+    } else {
+      Estaticos.showSnackbar('Debe completar todos los campos');
+    }
   }
 }
