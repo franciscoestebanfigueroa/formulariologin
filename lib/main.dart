@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:formulariologin/Screens/screens.dart';
 import 'package:formulariologin/estaticos/estaticos.dart';
 import 'package:formulariologin/provider/provider_productos.dart';
+import 'package:formulariologin/provider/service_login.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -14,7 +15,8 @@ class MyAppProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(providers: [
-      ChangeNotifierProvider(create: (context) => ProviderPreoductos())
+      ChangeNotifierProvider(create: (context) => ProviderPreoductos()),
+      ChangeNotifierProvider(create: (context) => ServiceLogin())
     ], child: const MyApp());
   }
 }

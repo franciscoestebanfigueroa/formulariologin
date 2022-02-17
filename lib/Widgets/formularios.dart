@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:formulariologin/Screens/home.dart';
 import 'package:formulariologin/Screens/login.dart';
 import 'package:formulariologin/estaticos/estaticos.dart';
-import 'package:formulariologin/model/producto.dart';
+
 import 'package:formulariologin/provider/provider_productos.dart';
 import 'package:formulariologin/provider/providerkeylogin.dart';
 import 'package:formulariologin/provider/service_login.dart';
@@ -38,6 +38,7 @@ class Formularios extends StatelessWidget {
                   child: Column(
                     children: [
                       TextFormField(
+                          onChanged: (value) => keyprovider.email,
                           keyboardType: TextInputType.emailAddress,
                           validator: (value) {
                             String pattern =
@@ -56,6 +57,7 @@ class Formularios extends StatelessWidget {
                             hint: 'correo@gmail.com',
                           )),
                       TextFormField(
+                        onChanged: (value) => keyprovider.pass = value,
                         obscureText: true,
                         autocorrect: false,
                         validator: (value) {
@@ -129,14 +131,22 @@ class Formularios extends StatelessWidget {
     }
   }
 
-  void newUser(
+  newUser(
       BuildContext context, ProviderPreoductos data, PoroviderKey keyprovider) {
-    final autprovider = Provider.of<ServiceLogin>(context);
-
+    final autprovider = Provider.of<ServiceLogin>(context, listen: false);
+    print('en nuevo usuario ${keyprovider.email} ${keyprovider.pass}  ');
     if (keyprovider.validar()) {
       Navigator.popAndPushNamed(context, Login.router);
-      autprovider.newUser();
-      print('llamar a crar');
+
+      final resul = autprovider
+          .newUser(keyprovider.email, keyprovider.pass)
+          .then((value) {
+        if (value != null) {
+          return Estaticos.showSnackbar(value);
+        } else {
+          Estaticos.showSnackbar(value);
+        }
+      });
     } else {
       Estaticos.showSnackbar('Debe completar todos los campos');
     }
