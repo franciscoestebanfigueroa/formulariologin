@@ -6,6 +6,7 @@ import 'package:formulariologin/estaticos/estaticos.dart';
 import 'package:formulariologin/model/producto.dart';
 import 'package:formulariologin/provider/provider_productos.dart';
 import 'package:formulariologin/provider/providerkeylogin.dart';
+import 'package:formulariologin/provider/service_login.dart';
 import 'package:provider/provider.dart';
 
 class Formularios extends StatelessWidget {
@@ -130,8 +131,11 @@ class Formularios extends StatelessWidget {
 
   void newUser(
       BuildContext context, ProviderPreoductos data, PoroviderKey keyprovider) {
+    final autprovider = Provider.of<ServiceLogin>(context);
+
     if (keyprovider.validar()) {
       Navigator.popAndPushNamed(context, Login.router);
+      autprovider.newUser();
       print('llamar a crar');
     } else {
       Estaticos.showSnackbar('Debe completar todos los campos');
