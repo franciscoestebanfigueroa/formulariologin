@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:formulariologin/Screens/screens.dart';
 import 'package:formulariologin/estaticos/estaticos.dart';
 import 'package:formulariologin/model/producto.dart';
 import 'package:formulariologin/provider/provider_productos.dart';
+import 'package:formulariologin/provider/service_login.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatelessWidget {
@@ -12,9 +14,18 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dataProvider = Provider.of<ProviderPreoductos>(context);
+    final token = Provider.of<ServiceLogin>(context, listen: false);
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          leading: TextButton(
+            onPressed: () {
+              token.clearToken();
+              Navigator.pushReplacementNamed(context, Login.router);
+            },
+            child: const Icon(Icons.login),
+          ),
           title: const Text('Productos'),
         ),
         body: const ListCardProductos(),

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:formulariologin/Screens/screens.dart';
 import 'package:formulariologin/Widgets/formularios.dart';
 import 'package:formulariologin/estaticos/estaticos.dart';
-import 'package:formulariologin/provider/service_login.dart';
-import 'package:provider/provider.dart';
 
 class Login extends StatelessWidget {
   static String router = 'login';
