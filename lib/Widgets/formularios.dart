@@ -38,7 +38,7 @@ class Formularios extends StatelessWidget {
                   child: Column(
                     children: [
                       TextFormField(
-                          onChanged: (value) => keyprovider.email,
+                          onChanged: (value) => keyprovider.email = value,
                           keyboardType: TextInputType.emailAddress,
                           validator: (value) {
                             String pattern =
@@ -136,15 +136,14 @@ class Formularios extends StatelessWidget {
     final autprovider = Provider.of<ServiceLogin>(context, listen: false);
     print('en nuevo usuario ${keyprovider.email} ${keyprovider.pass}  ');
     if (keyprovider.validar()) {
-      Navigator.popAndPushNamed(context, Login.router);
-
       final resul = autprovider
           .newUser(keyprovider.email, keyprovider.pass)
           .then((value) {
-        if (value != null) {
-          return Estaticos.showSnackbar(value);
+        if (value == 'ok') {
+          Estaticos.showSnackbar(value!);
+          Navigator.popAndPushNamed(context, Login.router);
         } else {
-          Estaticos.showSnackbar(value);
+          Estaticos.showSnackbar(value!);
         }
       });
     } else {

@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 class ServiceLogin extends ChangeNotifier {
-  Future<String> newUser(String email, String password) async {
+  Future<String?> newUser(String email, String password) async {
     //  Uri url = Uri.parse(
     //      'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBoXMFrc7jcWRaYAqi47NAa6yin7Z2yB0k');
     //
@@ -23,7 +23,12 @@ class ServiceLogin extends ChangeNotifier {
     http.Response response = await http.post(url, body: jsonEncode(data));
 
     var jdecode = jsonDecode(response.body);
-    var mensage = jdecode['error']['message'];
-    return mensage ?? 'sin data';
+    int status = response.statusCode;
+    if (status == 200) {
+      return 'ok';
+    } else {
+      String? mensage = jdecode['error']['message'];
+      return mensage;
+    }
   }
 }
