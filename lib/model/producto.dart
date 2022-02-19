@@ -4,7 +4,7 @@ class Producto {
   String nombre;
   String? descripcion;
   String? imagen;
-  bool disponible;
+  bool disponible = true;
   double precio;
   String? id;
 

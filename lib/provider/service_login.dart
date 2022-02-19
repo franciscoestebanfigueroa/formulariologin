@@ -16,7 +16,7 @@ class ServiceLogin extends ChangeNotifier {
     Map<String, dynamic> data = {
       'email': email,
       'password': password,
-      // 'returnSecureToken': true
+      'returnSecureToken': true
     };
     Uri url = Uri.https(authority, unencodedPath, {'key': key});
     http.Response response = await http.post(url, body: jsonEncode(data));
@@ -28,6 +28,8 @@ class ServiceLogin extends ChangeNotifier {
         guardarToken.write(
             key: 'token', value: responseBody['registered'].toString());
         //vamos a guardar usuario registrado, en realidad devemos guardar token
+        guardarToken.write(
+            key: 'idToken', value: responseBody['idToken'].toString());
 
         return true;
       }
@@ -48,7 +50,7 @@ class ServiceLogin extends ChangeNotifier {
     Map<String, dynamic> data = {
       'email': email,
       'password': password,
-      //'returnSecureToken': true
+      'returnSecureToken': true
     };
 
     http.Response response = await http.post(url, body: jsonEncode(data));
@@ -56,6 +58,8 @@ class ServiceLogin extends ChangeNotifier {
     var jdecode = jsonDecode(response.body);
     int status = response.statusCode;
     if (status == 200) {
+      //  print('data creacion ${jdecode['idToken']}');
+
       return 'ok';
     } else {
       String? mensage = jdecode['error']['message'];
@@ -80,6 +84,7 @@ class ServiceLogin extends ChangeNotifier {
     const store.FlutterSecureStorage guardarToken =
         store.FlutterSecureStorage();
     await guardarToken.delete(key: 'token');
+    await guardarToken.delete(key: 'idToken');
     notifyListeners();
   }
 }

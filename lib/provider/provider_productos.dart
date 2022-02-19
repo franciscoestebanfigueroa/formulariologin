@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:formulariologin/model/producto.dart';
 import 'package:http/http.dart' as http;
 
@@ -19,11 +20,15 @@ class ProviderPreoductos extends ChangeNotifier {
 
   Future<String> nuevoProducto(Producto producto) async {
     String url = 'stock-5961c-default-rtdb.firebaseio.com';
+    FlutterSecureStorage store = const FlutterSecureStorage();
 
-    var uri = Uri.https(url, 'productos.json');
+    var uri = Uri.https(
+        url, 'productos.json', {'auth': await store.read(key: 'idToken')});
 
-    http.Response response =
-        await http.post(uri, body: producto.jsonProducto());
+    http.Response response = await http.post(
+      uri,
+      body: producto.jsonProducto(),
+    );
 
     //el response es el nombre del nuevo lugar, id..
     var nuevoid = jsonDecode(response.body);
@@ -32,9 +37,12 @@ class ProviderPreoductos extends ChangeNotifier {
   }
 
   Future<String> setbasedatos(Producto producto) async {
+    FlutterSecureStorage store = const FlutterSecureStorage();
+
     const url = 'stock-5961c-default-rtdb.firebaseio.com';
 
-    Uri uri = Uri.https(url, 'productos/${producto.id}.json');
+    Uri uri = Uri.https(url, 'productos/${producto.id}.json',
+        {'auth': await store.read(key: 'idToken')});
 
     String jsonproduct = producto.jsonProducto();
 
@@ -48,8 +56,12 @@ class ProviderPreoductos extends ChangeNotifier {
 
   Future<List<Producto>> getProductos() async {
     const url = 'stock-5961c-default-rtdb.firebaseio.com';
+    FlutterSecureStorage store = const FlutterSecureStorage();
+    String idToken = await store.read(key: 'idToken') ?? '';
+    print('key  de token en get $idToken');
 
-    Uri uri = Uri.https(url, 'productos.json');
+    Uri uri = Uri.https(
+        url, 'productos.json', {'auth': idToken}); //fiber lo pide en www
 
     http.Response response = await http.get(uri);
     // print('RESPONSE  ${response.body}');
